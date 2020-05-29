@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html class="ui-page-login">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<script src="./js/jquery-1.12.3.min.js"></script>
+		<title>会员电子协议签约</title>
+	</head>
+
+	<body>
+		<header class="" style="background-color:#EA4335;">
+			<h1 class=""><font color="white">会员电子协议签约</font></h1>
+		</header>
+		<br>
+		<form name="gatewayForm" action="http://116.228.64.55:6900/yungateway/" method='GET'>
+			<input type="hidden" name="sysid" id="sysid" value="" >
+			<input type="hidden" name="v" id="v" value="2.0" >
+			<input type="hidden" name="timestamp" id="timestamp" value="" >
+			<input type="hidden" name="sign" id="sign" value="">
+			<input type="hidden" name="req" id="req" value="">
+			<input type="submit" id="confirm"  value="会员电子协议签约" >
+		</form>
+	</body>
+    <script>
+	$(document).ready(function(){
+	  $.ajax(
+	  	{
+	  		url:"signContract.php",
+	  		dataType: "json",
+	  		type:'post',
+	  		data: {"method":"signContract"},
+	  		success: function(datas) {
+	  			var timestamp = datas.timestamp;
+	  			var sign = datas.sign;
+	  			var req = datas.req;
+	  			document.gatewayForm.timestamp.value = timestamp;
+	  			document.gatewayForm.sign.value = sign;
+	  			document.gatewayForm.req.value = req;
+				document.gatewayForm.sysid.value = datas.sysid;
+				document.gatewayForm.action = datas.gateWayUrl;
+			},
+			error: function() {
+				alert('请求失败，请重新输入！'); 
+			}
+	  	}
+	  );
+	}); 
+	</script>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html class="ui-page-login">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport"
+        content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+  <script src="./js/jquery-1.12.3.min.js"></script>
+  <title>确认支付（前台+短信验证码确认）</title>
+</head>
+
+<body>
+<header class="" style="background-color:#EA4335;">
+  <h1 class=""><font color="white">确认支付（前台+短信验证码确认）</font></h1>
+</header>
+<br>
+
+<form name="gatewayForm" action="/payConfirm.php" method='GET'>
+  <label>输入验证码</label>
+  <input type="text" name="verificationCode" id="verificationCode" value="">
+  <input type="hidden" name="bizOrderNo" id="bizOrderNo" value="">
+  <input type="hidden" name="tradeNo" id="tradeNo" value="">
+  <input type="submit" id="confirm" value="确认支付">
+</form>
+<p>
+  <input type="button" id="resendSms" value="重新发送短信"></p>
+</body>
+<script>
+    $(document).ready(function () {
+        $('#bizOrderNo').val(getUrlParam('bizOrderNo'));
+        $('#tradeNo').val(getUrlParam('tradeNo'));
+        $('#resendSms').click(function () {
+            $.ajax({
+                url: "resendPaySms.php",
+                dataType: "json",
+                type: 'post',
+                data: {"bizOrderNo": getUrlParam('bizOrderNo'),"tradeNo": getUrlParam('tradeNo')},
+                success: function (data) {
+                    alert(data.msg);
+                },
+                error: function () {
+                    alert('请求失败，请重新输入！');
+                }
+            })
+        })
+    });
+
+    function getUrlParam(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+        //匹配目标参数  
+        var r = window.location.search.substr(1).match(reg);
+        //返回参数值  
+        if (r != null) return unescape(r[2]);
+        return null;
+    }
+</script>
+</html>
