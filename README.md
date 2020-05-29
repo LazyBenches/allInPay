@@ -36,9 +36,3 @@
 * 解绑绑定银行卡
 
 
- * https://vsp.allinpay.com
- * 账号：13550390359
- * 密码：yjwh20200407
- * 交易密码：yjwh20200408
- * Md5交易密钥：qwerasdfzxcv
- * Appid: 00186641
